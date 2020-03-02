@@ -1,0 +1,17 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: rewritepath_route
+          uri: http://example.org
+          predicates:
+            - Path=/foo/**
+          filters:
+            - RewritePath=/foo/(?<segment>.*), /$\{segment}
